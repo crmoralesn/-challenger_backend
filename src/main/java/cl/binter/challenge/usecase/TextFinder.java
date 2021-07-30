@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TextFinder {
 
+	public static final int ONE = 1;
 	/**
 	 * Text repository
 	 */
@@ -58,8 +59,12 @@ public class TextFinder {
 	 * @return List of Score term
 	 */
 	public List<ScoreTerm> scoreTerm(Long id, Integer page) {
+		log.info("[scoreTerm] id {} page {} ", id, page);
 		var text = textRepository.findText(id, page);
-		return buildCountTerm(text.getTextBlock());
+		log.info("[scoreTerm] text to score {}", text);
+		var listCountTerm = buildCountTerm(text.getText());
+		log.info("[scoreTerm] Found {}", listCountTerm.size());
+		return listCountTerm;
 	}
 
 	/**
@@ -76,8 +81,12 @@ public class TextFinder {
 					.collect(Collectors.toList());
 			var termsSet = new HashSet<>(terms);
 			var resultSet = new HashSet<ScoreTerm>();
-			termsSet.forEach(term ->
-					resultSet.add(new ScoreTerm(term, (int) terms.stream().filter(term::equals).count()))
+			termsSet.forEach(term -> {
+					var count = (int) terms.stream().filter(term::equals).count();
+					if (count > ONE) {
+						resultSet.add(new ScoreTerm(term, count));
+					}
+			}
 			);
 			return resultSet.stream()
 					.sorted(Comparator.comparing(ScoreTerm::getMatches)

@@ -35,8 +35,4 @@ public class Text {
      */
     private String text;
 
-    /**
-     * text block
-     */
-    private String textBlock;
 }
