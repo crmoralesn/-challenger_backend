@@ -13,4 +13,6 @@ apply from: "${gradlePath}/build-config.gradle"
 apply from: "${gradlePath}/build-java.gradle"
 apply from: "${gradlePath}/build-artifact.gradle"
 apply from: "${gradlePath}/build-dependencies.gradle"
+apply from: "${gradlePath}/build-test.gradle"
+
 
