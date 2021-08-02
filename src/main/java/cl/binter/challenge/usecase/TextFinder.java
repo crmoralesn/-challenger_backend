@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 public class TextFinder {
 
 	public static final int ONE = 1;
+	public static final String REGEX = "[^\\dA-Za-z ]";
+	public static final String SPACE = " ";
 	/**
 	 * Text repository
 	 */
@@ -76,8 +78,8 @@ public class TextFinder {
 	private List<ScoreTerm> buildCountTerm(String texBlock) {
 		if (Objects.nonNull(texBlock) && texBlock.length() > 0) {
 			List<String> terms = Arrays
-					.stream(texBlock.replaceAll("[^\\dA-Za-z ]", "").toLowerCase()
-					.split(" "))
+					.stream(texBlock.replaceAll(REGEX, "").toLowerCase()
+					.split(SPACE))
 					.collect(Collectors.toList());
 			var termsSet = new HashSet<>(terms);
 			var resultSet = new HashSet<ScoreTerm>();
